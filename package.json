@@ -1,0 +1,33 @@
+{
+  "name": "connecting-people-my-first-chatroom",
+  "version": "1.0.0",
+  "description": "> _Fork_ deze leertaak en ga aan de slag. Onderstaande outline ga je gedurende deze taak in jouw eigen GitHub omgeving uitwerken. De instructie vind je in: [docs/INSTRUCTIONS.md](docs/INSTRUCTIONS.md)",
+  "main": "app.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaanKorver/connecting-people-my-first-chatroom.git"
+  },
+  "author": "Daan Korver",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DaanKorver/connecting-people-my-first-chatroom/issues"
+  },
+  "homepage": "https://github.com/DaanKorver/connecting-people-my-first-chatroom#readme",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "express-compression": "^1.0.1",
+    "socket.io": "^4.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
