@@ -59,6 +59,7 @@ npm start
 ## 🛍️ Bronnen
 
 [Socket.io](https://socket.io/)
+[Heroku](https://www.heroku.com/)
 
 ## 🪪 Licentie
 
