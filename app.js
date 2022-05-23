@@ -19,12 +19,14 @@ app.get('/', (req, res) => {
 // Socket io stuff
 
 const users = {}
+let typingUsers = []
 
 io.on('connection', socket => {
 	socket.on('send-nickname', nickname => {
 		socket.nickname = nickname
 		users[socket.id] = nickname
 		io.emit('connected', users[socket.id])
+		io.emit('typing', typingUsers)
 	})
 
 	socket.on('message', message => {
@@ -33,6 +35,23 @@ io.on('connection', socket => {
 
 	socket.on('disconnect', () => {
 		io.emit('disconnected', users[socket.id])
+		const typeIndex = typingUsers.indexOf(users[socket.id])
+		if (typeIndex) {
+			typingUsers.splice(typingUsers.indexOf(users[socket.id]), 1)
+			io.emit('stop-typing', typingUsers)
+		}
+	})
+
+	socket.on('start-typing', () => {
+		typingUsers.push(users[socket.id])
+		io.emit('typing', typingUsers)
+		console.log(users[socket.id], ' is typing...')
+	})
+
+	socket.on('stop-typing', () => {
+		typingUsers.splice(typingUsers.indexOf(users[socket.id]), 1)
+		io.emit('stop-typing', typingUsers)
+		console.log(users[socket.id], ' stopped typing.')
 	})
 })
 
