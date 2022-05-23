@@ -9,6 +9,7 @@ const chatForm = document.querySelector('form')
 const chatInput = document.querySelector('form > input')
 const connections = document.querySelector('.connections')
 const typingEl = document.querySelector('.typing')
+const listEl = document.querySelector('.list')
 
 while (nickname === null || nickname.length < MIN_NAME_LENGTH) {
 	nickname = prompt(
@@ -44,7 +45,6 @@ socket.on('message', message => {
 		'beforeend',
 		`<li>${message.nickname} : ${message.value}</li>`
 	)
-	console.log(message)
 })
 
 socket.on('disconnected', user => {
@@ -59,6 +59,13 @@ socket.on('connected', user => {
 socket.on('typing', renderTyping)
 socket.on('stop-typing', renderTyping)
 
+socket.on('update-list', users => {
+	listEl.innerHTML = ''
+	Object.values(users).forEach(user => {
+		listEl.insertAdjacentHTML('beforeend', `<li>${user}</li>`)
+	})
+})
+
 function renderConnection(connected, user) {
 	const msg = connected ? 'connected' : 'disconnected'
 	connections.insertAdjacentHTML(
@@ -72,7 +79,6 @@ function renderConnection(connected, user) {
 
 function renderTyping(users) {
 	let typingString = ''
-	console.log(users.length)
 	switch (true) {
 		case users.length === 1:
 			typingString = `${users[0]} is typing...`
@@ -84,7 +90,6 @@ function renderTyping(users) {
 			typingString = 'Multiple people are typing...'
 			break
 		default:
-			console.log('should be here')
 			typingString = ''
 	}
 	typingEl.innerText = typingString

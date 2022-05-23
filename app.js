@@ -27,6 +27,7 @@ io.on('connection', socket => {
 		users[socket.id] = nickname
 		io.emit('connected', users[socket.id])
 		io.emit('typing', typingUsers)
+		io.emit('update-list', users)
 	})
 
 	socket.on('message', message => {
@@ -40,6 +41,8 @@ io.on('connection', socket => {
 			typingUsers.splice(typingUsers.indexOf(users[socket.id]), 1)
 			io.emit('stop-typing', typingUsers)
 		}
+		delete users[socket.id]
+		io.emit('update-list', users)
 	})
 
 	socket.on('start-typing', () => {
