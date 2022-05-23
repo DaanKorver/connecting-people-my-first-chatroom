@@ -24,10 +24,15 @@ io.on('connection', socket => {
 	socket.on('send-nickname', nickname => {
 		socket.nickname = nickname
 		users[socket.id] = nickname
+		io.emit('connected', users[socket.id])
 	})
 
 	socket.on('message', message => {
 		io.emit('message', { value: message, nickname: socket.nickname })
+	})
+
+	socket.on('disconnect', () => {
+		io.emit('disconnected', users[socket.id])
 	})
 })
 

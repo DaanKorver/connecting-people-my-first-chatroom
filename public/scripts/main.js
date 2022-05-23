@@ -1,17 +1,18 @@
 const socket = io()
 
-let nickname = prompt('Please enter a nickname') || 'Anonymous user'
+let nickname = prompt('Please enter a nickname')
 const MIN_NAME_LENGTH = 3
-
-while (nickname.length < MIN_NAME_LENGTH) {
-	nickname = prompt(
-		`Nickname must be longer than ${MIN_NAME_LENGTH} characters`
-	)
-}
 
 const chatEl = document.querySelector('.chat')
 const chatForm = document.querySelector('form')
 const chatInput = document.querySelector('form > input')
+const connections = document.querySelector('.connections')
+
+while (nickname === null || nickname.length < MIN_NAME_LENGTH) {
+	nickname = prompt(
+		`Nickname must be longer than ${MIN_NAME_LENGTH} characters`
+	)
+}
 
 chatForm.addEventListener('submit', e => {
 	e.preventDefault()
@@ -30,3 +31,23 @@ socket.on('message', message => {
 	)
 	console.log(message)
 })
+
+socket.on('disconnected', user => {
+	renderConnection(false, user)
+})
+
+socket.on('connected', user => {
+	if (nickname === user) return
+	renderConnection(true, user)
+})
+
+function renderConnection(connected, user) {
+	const msg = connected ? 'connected' : 'disconnected'
+	connections.insertAdjacentHTML(
+		'beforeend',
+		`<li class="${user}${msg}">${user} ${msg}</li>`
+	)
+	setTimeout(() => {
+		connections.querySelector(`.${user}${msg}`).remove()
+	}, 1200)
+}
