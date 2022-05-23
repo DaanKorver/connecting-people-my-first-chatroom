@@ -1,6 +1,7 @@
 const socket = io()
 
-let nickname = prompt('Please enter a nickname')
+let nickname =
+	localStorage.getItem('nickname') || prompt('Please enter a nickname')
 const MIN_NAME_LENGTH = 3
 
 const chatEl = document.querySelector('.chat')
@@ -14,6 +15,8 @@ while (nickname === null || nickname.length < MIN_NAME_LENGTH) {
 		`Nickname must be longer than ${MIN_NAME_LENGTH} characters`
 	)
 }
+
+localStorage.setItem('nickname', nickname)
 
 chatForm.addEventListener('submit', e => {
 	e.preventDefault()
