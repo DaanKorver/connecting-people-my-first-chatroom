@@ -5,7 +5,7 @@
 /* ======================================== */
 :root {
   --primary: #25167A;
-  --background: #ffffff;
+  --background: #FFFFFF;
   --gray: #EEEEEE
 }
 
@@ -50,12 +50,17 @@ header {
   z-index: 10;
 }
 
-header img:first-child {
+header > svg:first-child {
   width: 3.5em;
 }
 
-header img:last-child {
+header > svg g {
+  fill: var(--background);
+}
+
+header label svg {
   width: 2em;
+  stroke: var(--background);
 }
 
 /* ======================================== */
@@ -73,6 +78,13 @@ header img:last-child {
 main > div {
   padding: 0 1em;
   overflow: hidden;
+}
+
+main > div.image {
+  background-image: url('../assets/logo.svg');
+  background-size: cover;
+  background-position: center;
+  filter: contrast(90%);
 }
 
 .chat {
@@ -215,7 +227,7 @@ form {
 }
 
 .chat-bar {
-  background-color: var(--background);
+  background-color: #FFFFFF;
   width: 100%;
   border-radius: .8em;
   display: flex;
@@ -250,11 +262,15 @@ form {
   padding-right: 1em;
 }
 
+.chat-bar button svg path{
+  fill: var(--primary);
+}
+
 /* ======================================== */
 /* Active users */
 /* ======================================== */
 
-input[type="checkbox"] {
+main > input[type="checkbox"] {
   display: none;
 }
 
@@ -318,4 +334,35 @@ input[type="checkbox"]:checked + .users div {
 ::selection {
   background-color: var(--background);
   color: var(--primary);
+}
+
+/* ======================================== */
+/* Customize */
+/* ======================================== */
+aside {
+  position: absolute;
+  left: 5%;
+  top: 5%;
+  text-align: right;
+}
+
+aside ul {
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: .5em;
+}
+
+aside ul li {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1em;
+}
+
+@media (max-width: 75em) {
+  aside {
+    display: none;
+  }
 }

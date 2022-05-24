@@ -10,6 +10,9 @@ const chatInput = document.querySelector('form input')
 const connections = document.querySelector('.connections')
 const typingEl = document.querySelector('.typing')
 const listEl = document.querySelector('.list')
+const primaryColor = document.querySelector('.primary')
+const backgroundColor = document.querySelector('.background')
+const backgroundImage = document.querySelector('.image')
 
 while (nickname === null || nickname.length < MIN_NAME_LENGTH) {
 	nickname = prompt(
@@ -35,6 +38,32 @@ chatInput.addEventListener('keyup', () => {
 		isTyping = false
 		socket.emit('stop-typing')
 	}
+})
+
+// Customize scripts
+const rootVariables = getRootVariables()
+const variables = {
+	primary: rootVariables[0],
+	background: rootVariables[1],
+}
+
+primaryColor.defaultValue = variables.primary
+primaryColor.addEventListener('input', e => {
+	const color = e.target.value
+	variables.primary = color
+	setRootVariables()
+})
+
+backgroundColor.defaultValue = variables.background
+backgroundColor.addEventListener('input', e => {
+	const color = e.target.value
+	variables.background = color
+	setRootVariables()
+})
+
+backgroundImage.addEventListener('input', e => {
+	const checked = e.target.checked
+	document.querySelector('main > div').classList.toggle('image', checked)
 })
 
 //Socket io stuff
@@ -116,4 +145,25 @@ function renderTyping(users) {
 			typingString = ''
 	}
 	typingEl.innerText = typingString
+}
+
+function getRootVariables() {
+	const variables = ['primary', 'background']
+	let rootVariables = []
+	variables.forEach(variable => {
+		const rootVariable = getComputedStyle(document.body).getPropertyValue(
+			`--${variable}`
+		)
+		rootVariables.push(rootVariable.replace(/\s/g, ''))
+	})
+	return rootVariables
+}
+
+function setRootVariables() {
+	const variableNames = Object.keys(variables)
+	const variableValues = Object.values(variables)
+
+	for (let i = 0; i < variableNames.length; i++) {
+		document.body.style.setProperty(`--${variableNames[i]}`, variableValues[i])
+	}
 }
