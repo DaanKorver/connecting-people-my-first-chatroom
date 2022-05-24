@@ -138,18 +138,31 @@ main > div {
   gap: 1em;
   max-width: 27em;
   position: relative;
+  animation: msg .3s ease-out forwards;
 }
 
 .chat li.recieved .msg {
   background-color: var(--gray);
   color: var(--primary);
   border-top-left-radius: 0;
+  transform-origin: top left;
 }
 
 .chat li.sent .msg {
   background-color: var(--primary);
   color: var(--background);
   border-top-right-radius: 0;
+  transform-origin: top right;
+}
+
+@keyframes msg{
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
 }
 
 .chat li.recieved .msg::before {
@@ -208,7 +221,6 @@ form {
   display: flex;
   justify-content: center;
   overflow: hidden;
-  /* align-items: center; */
 }
 
 .chat-bar input {
@@ -219,6 +231,16 @@ form {
   font-size: 1rem;
   font-weight: 400;
   color: var(--primary);
+}
+
+.chat-bar input::-moz-selection {
+  color: var(--background);
+  background-color: var(--primary);
+}
+
+.chat-bar input::selection {
+  color: var(--background);
+  background-color: var(--primary);
 }
 
 .chat-bar button {
@@ -267,5 +289,33 @@ input[type="checkbox"]:checked + .users div {
   transform: translateX(100%);
   transition: 300ms transform ease-out;
   padding: 1em;
+  color: var(--primary);
+}
+
+.users div *::-moz-selection {
+  color: var(--background);
+  background-color: var(--primary);
+}
+
+.users div *::selection {
+  color: var(--background);
+  background-color: var(--primary);
+}
+
+.users ul {
+  padding: 0;
+}
+
+.users ul li {
+  margin-left: 1.5em;
+}
+
+::-moz-selection {
+  background-color: var(--background);
+  color: var(--primary);
+}
+
+::selection {
+  background-color: var(--background);
   color: var(--primary);
 }

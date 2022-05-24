@@ -44,7 +44,10 @@ socket.on('message', message => {
 	const from = message.nickname === nickname ? 'sent' : 'recieved'
 	const user = message.nickname === nickname ? 'Jij' : message.nickname
 	const date = new Date()
-	const time = `${date.getHours()}:${date.getMinutes()}`
+	const hours = date.getHours() <= 9 ? `0${date.getHours()}` : date.getHours()
+	const minutes =
+		date.getMinutes() <= 9 ? `0${date.getMinutes()}` : date.getMinutes()
+	const time = `${hours}:${minutes}`
 	chatEl.insertAdjacentHTML(
 		'beforeend',
 		`
@@ -74,9 +77,14 @@ socket.on('stop-typing', renderTyping)
 
 socket.on('update-list', users => {
 	listEl.innerHTML = ''
-	Object.values(users).forEach(user => {
-		listEl.insertAdjacentHTML('beforeend', `<li>${user}</li>`)
-	})
+	const userList = Object.values(users)
+	if (userList.length === 1 && userList[0] === nickname) {
+		listEl.insertAdjacentHTML('beforeend', `<p>Je bent helemaal alleen...</p>`)
+	} else {
+		userList.forEach(user => {
+			listEl.insertAdjacentHTML('beforeend', `<li>${user}</li>`)
+		})
+	}
 })
 
 function renderConnection(connected, user) {
@@ -88,6 +96,7 @@ function renderConnection(connected, user) {
 		'beforeend',
 		`<li class="connection">${user} ${msg}</li>`
 	)
+	chatEl.scrollTo(0, chatEl.scrollHeight)
 }
 
 function renderTyping(users) {
