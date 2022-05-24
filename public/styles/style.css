@@ -363,6 +363,12 @@ aside ul li {
 
 @media (max-width: 75em) {
   aside {
+    left: 2%;
+  }
+}
+
+@media (max-width: 66em) {
+  aside {
     display: none;
   }
 }
