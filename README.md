@@ -1,6 +1,6 @@
-# 💬 Chatroom [...]
+# 💬 Chatroom MijnHva
 
-<!-- Geef je project een titel en schrijf in één zin wat het is -->
+<img src="./docs/preview.png" alt="MijnHvA chat">
 
 ## 📚 Inhoudsopgave
 
