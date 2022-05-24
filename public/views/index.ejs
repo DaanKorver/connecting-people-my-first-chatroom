@@ -1,12 +1,48 @@
 <%- include('./partials/head.ejs') %>
-  <h1>Chatroom</h1>
-  <ul class="chat"></ul>
-  <form action="/">
-    <input type="text" name="message" id="message">
-    <button class="send">Send</button>
-  </form>
-  <ul class="connections"> </ul>
-  <p class="typing"></p>
-  <h2>Currently in Room</h2>
-  <ul class="list"></ul>
+  <main>
+    <header>
+      <img src="/assets/logo.svg" alt="HvA logo">
+      <h1>MijnHvA</h1>
+      <label for="toggle">
+        <img src="/assets/users.svg" alt="HvA logo">
+      </label>
+    </header>
+    <div>
+      <ul class="chat">
+
+        <li class="recieved">
+          <span>Jan</span>
+          <div class="msg">
+            <p>Heyyyy chat!</p>
+            <span>20:29</span>
+          </div>
+        </li>
+
+        <li class="sent">
+          <span>Jij</span>
+          <div class="msg">
+            <p>Heyyyy chat!</p>
+            <span>20:29</span>
+          </div>
+        </li>
+
+      </ul>
+      <p class="typing"></p>
+    </div>
+    <form action="/">
+      <div class="chat-bar">
+        <input type="text" name="message" id="message" placeholder="Start typing...">
+        <button class="send">
+          <img src="/assets/arrow.svg" alt="Arrow right">
+        </button>
+      </div>
+    </form>
+    <input type="checkbox" name="toggleOnline" id="toggle">
+    <div class="users">
+      <div>
+        <h2>Currently in Room</h2>
+        <ul class="list"></ul>
+      </div>
+    </div>
+  </main>
   <%- include('./partials/foot.ejs') %>

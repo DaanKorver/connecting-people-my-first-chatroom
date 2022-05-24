@@ -6,7 +6,7 @@ const MIN_NAME_LENGTH = 3
 
 const chatEl = document.querySelector('.chat')
 const chatForm = document.querySelector('form')
-const chatInput = document.querySelector('form > input')
+const chatInput = document.querySelector('form input')
 const connections = document.querySelector('.connections')
 const typingEl = document.querySelector('.typing')
 const listEl = document.querySelector('.list')
@@ -41,10 +41,23 @@ chatInput.addEventListener('keyup', () => {
 socket.emit('send-nickname', nickname)
 
 socket.on('message', message => {
+	const from = message.nickname === nickname ? 'sent' : 'recieved'
+	const user = message.nickname === nickname ? 'Jij' : message.nickname
+	const date = new Date()
+	const time = `${date.getHours()}:${date.getMinutes()}`
 	chatEl.insertAdjacentHTML(
 		'beforeend',
-		`<li>${message.nickname} : ${message.value}</li>`
+		`
+		<li class="${from}">
+			<span>${user}</span>
+			<div class="msg">
+				<p>${message.value}</p>
+				<span>${time}</span>
+			</div>
+		</li>
+	`
 	)
+	chatEl.scrollTo(0, chatEl.scrollHeight)
 })
 
 socket.on('disconnected', user => {
@@ -52,7 +65,7 @@ socket.on('disconnected', user => {
 })
 
 socket.on('connected', user => {
-	if (nickname === user) return
+	// if (nickname === user) return
 	renderConnection(true, user)
 })
 
@@ -67,27 +80,28 @@ socket.on('update-list', users => {
 })
 
 function renderConnection(connected, user) {
-	const msg = connected ? 'connected' : 'disconnected'
-	connections.insertAdjacentHTML(
+	if (user === nickname) return
+	const msg = connected
+		? 'is met de chat verbonden, welkom!'
+		: 'heeft de chat verlaten.'
+	chatEl.insertAdjacentHTML(
 		'beforeend',
-		`<li class="${user}${msg}">${user} ${msg}</li>`
+		`<li class="connection">${user} ${msg}</li>`
 	)
-	setTimeout(() => {
-		connections.querySelector(`.${user}${msg}`).remove()
-	}, 1200)
 }
 
 function renderTyping(users) {
 	let typingString = ''
 	switch (true) {
 		case users.length === 1:
-			typingString = `${users[0]} is typing...`
+			if (users[0] === nickname) return
+			typingString = `${users[0]} is aan 't typen...`
 			break
 		case users.length === 2:
-			typingString = `${users[0]} & ${users[1]} are typing...`
+			typingString = `${users[0]} & ${users[1]} zijn aan het typen...`
 			break
 		case users.length > 2:
-			typingString = 'Multiple people are typing...'
+			typingString = 'Meerdere personen zijn aan het typen...'
 			break
 		default:
 			typingString = ''
